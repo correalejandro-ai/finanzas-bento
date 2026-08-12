@@ -1,0 +1,3 @@
+# Respaldo del SPA fallback (por si se despliega sin netlify.toml).
+# Sirve index.html en cualquier ruta interna con código 200 (no 404).
+/*    /index.html   200

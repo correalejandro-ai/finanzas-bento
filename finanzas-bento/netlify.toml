@@ -1,0 +1,32 @@
+# ============================================================
+# Finanzas Bento · configuración de despliegue en Netlify
+# ------------------------------------------------------------
+# El build genera config.js a partir de las variables de entorno
+# (SUPABASE_URL y SUPABASE_ANON_KEY) para NO dejar nada hardcodeado
+# en el HTML. El SPA fallback evita el error 404 al refrescar.
+# ============================================================
+
+[build]
+  publish = "."
+  command = "node build.js"
+
+# Redirección SPA: cualquier ruta interna sirve index.html (200, no 404).
+# Los archivos que existen físicamente (config.js, assets) se sirven tal cual.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Cabeceras de seguridad razonables para producción.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# config.js no debe cachearse de forma agresiva: cambia con el entorno.
+[[headers]]
+  for = "/config.js"
+  [headers.values]
+    Cache-Control = "no-store"
